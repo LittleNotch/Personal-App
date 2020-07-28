@@ -9,6 +9,7 @@ import styles from './index.module.less';
 const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
+//const PersonalSettting = lazy(() => import('../pages/PersonalSetting'));
 
 const Router = () => (
     <Suspense 

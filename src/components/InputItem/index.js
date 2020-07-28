@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Form, Button, Row, Col, message } from 'antd';
+import { Input, Form, Button, Row, Col } from 'antd';
 import styles from './index.module.less';
 
 const InputItem = React.forwardRef((props, ref) => {
-    const { name, rules, ...rest } = props;
+    const { name, rules, onClick, ...rest } = props;
     const [timing, setTiming] = useState(false); // if timing is on
-    const [count, setCount] = useState(props.countDown || 60); // timing from 60 sec
+    const [count, setCount] = useState(props.countDown || 10); // timing from 60 sec
     const handleClickCaptcha = () => {
-        message.success('get conf number 1234 successfully!');
+        onClick();
         setTiming(true);
     }
 
@@ -19,7 +19,7 @@ const InputItem = React.forwardRef((props, ref) => {
                     if(preSecond <= 1) {
                         setTiming(false); // timing ends
                         clearInterval(interval);
-                        return props.countDown || 60;
+                        return props.countDown || 10;
                     }
                     return preSecond - 1;
                 })
@@ -40,7 +40,7 @@ const InputItem = React.forwardRef((props, ref) => {
                             className={styles.getCaptcha} 
                             disabled={timing}
                             size="large" 
-                            onClick={handleClickCaptcha}
+                            onClick={onClick}
                         > 
                             {timing ? `${count}sec` : 'Get Conf Num'}
                         </Button>

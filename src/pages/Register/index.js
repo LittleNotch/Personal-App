@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'redux-react-hook';
+import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import InputItem from '../../components/InputItem';
-import styles from './index.module.less';
 import SubmitButton from '../../components/SubmitButton';
+import { getCaptcha, register } from '../../actions/account';
+import styles from './index.module.less';
 
 const { Option } = Select;
 
@@ -33,12 +35,13 @@ const passwordProgressMap = {
 
 
 const Register = () => {
+    const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
     const [prefix, setPrefix] = useState('86');
     const [popover, setPopover] = useState(false);
     const [form] = Form.useForm();
     const handleFinish = (values) => {
-        console.log(values);
+        dispatch(register(values));
     }
 
     const getPasswordStatus = () => {
@@ -91,6 +94,14 @@ const Register = () => {
         )
     }
 
+    const handleClickCaptcha = () => {
+        form.validateFields(['username', 'email', 'password'])
+            .then(() => {
+                dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password'])))
+            })
+    }
+
+
     return (
         <div className={styles.registerContainer}>
             <div className={styles.register}>
@@ -99,7 +110,18 @@ const Register = () => {
                     onFinish={handleFinish}
                 >
                     <InputItem
-                        name="mail"
+                        name="username"
+                        placeholder="Username"
+                        size="large"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input username!'
+                            }
+                        ]}
+                    />
+                    <InputItem
+                        name="email"
                         placeholder="Email"
                         size="large"
                         rules={[
@@ -196,6 +218,7 @@ const Register = () => {
                             }
                         ]}
                         placeholder="confirm number"
+                        onClick={handleClickCaptcha}
                     />
                     <Row justify="space-between"  align="middle"> 
                         <Col span={8}>

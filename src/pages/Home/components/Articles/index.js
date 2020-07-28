@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, Tag } from 'antd';
+import { List, Tag } from 'antd';
 import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons';
 import ArticleListContent from '../ArticleListContent';
 import styles from './index.module.less';
